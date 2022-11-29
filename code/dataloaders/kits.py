@@ -45,12 +45,6 @@ class KiTS1(Dataset):
             h5f = h5py.File(self._base_dir + "/{}.h5".format(image_name), 'r')
             label = h5f['label'][:]
         image = h5f['image'][:]     # 64*192*192
-
-        image = image.swapaxes(0, 2)        # 192*192*64
-        label = label.swapaxes(0, 2)
-        # image = (image - np.min(image)) / (np.max(image) - np.min(image))
-        image = (image - np.mean(image)) / np.std(image)
-        label=label >0
         sample = {'image': image, 'label': label.astype(np.uint8)}
         if self.transform:
             sample = self.transform(sample)
@@ -91,11 +85,6 @@ class KiTS2(Dataset):
             h5f = h5py.File(self._base_dir + "/{}.h5".format(image_name), 'r')
             label = h5f['label'][:]
         image = h5f['image'][:]     # 64*192*192
-        image = image.swapaxes(0, 2)        # 192*192*64
-        label = label.swapaxes(0, 2)
-        # image = (image - np.min(image)) / (np.max(image) - np.min(image))
-        image = (image - np.mean(image)) / np.std(image)
-        label=label >0
         sample = {'image': image, 'label': label.astype(np.uint8)}
         if self.transform:
             sample = self.transform(sample)
