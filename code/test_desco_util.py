@@ -17,6 +17,26 @@ def test_all_case(net, image_list, num_classes, patch_size=(112, 112, 80), strid
         h5f = h5py.File(image_path, 'r')
         image = h5f['image'][:]
         label = h5f['label'][:]
+        if dataset=='kits_kidney':
+            image = image.swapaxes(0, 2)  # 192*192*64
+            label = label.swapaxes(0, 2)
+            #image = (image - np.min(image)) / (np.max(image) - np.min(image))
+            image = (image - np.mean(image)) / np.std(image)
+            label = label >0
+        if dataset=='kits_tumor':
+            image = image.swapaxes(0, 2)  # 192*192*64
+            label = label.swapaxes(0, 2)
+            #image = (image - np.min(image)) / (np.max(image) - np.min(image))
+            image = (image - np.mean(image)) / np.std(image)
+            label = label ==2
+        elif dataset=='la':
+            pass
+        elif dataset=='lits_liver':
+            image = image.swapaxes(0, 2)  # 192*192*64
+            label = label.swapaxes(0, 2)
+            image = (image - np.mean(image)) / np.std(image)
+            label = label >0
+
         if preproc_fn is not None:
             image = preproc_fn(image)
         prediction, score_map = test_single_case(net, image, stride_xy, stride_z, patch_size,
@@ -48,7 +68,19 @@ def test_all_case_crn(net, image_list, num_classes, patch_size=(112, 112, 80), s
         h5f = h5py.File(image_path, 'r')
         image = h5f['image'][:]
         label = h5f['label'][:]
-
+        if dataset=='kits_kidney':
+            image = image.swapaxes(0, 2)  # 192*192*64
+            label = label.swapaxes(0, 2)
+            #image = (image - np.min(image)) / (np.max(image) - np.min(image))
+            image = (image - np.mean(image)) / np.std(image)
+            label = label >0
+        elif dataset=='la':
+            pass
+        elif dataset=='lits_liver':
+            image = image.swapaxes(0, 2)  # 192*192*64
+            label = label.swapaxes(0, 2)
+            image = (image - np.mean(image)) / np.std(image)
+            label = label >0
         if preproc_fn is not None:
             image = preproc_fn(image)
         prediction, score_map = test_single_case_crn(net,image, stride_xy, stride_z, patch_size, num_classes=num_classes)

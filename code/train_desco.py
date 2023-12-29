@@ -45,11 +45,9 @@ args = parser.parse_args()
 train_data_path = args.root_path
 snapshot_path = "../model/" + args.exp + "/"
 
-
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 batch_size = args.batch_size * len(args.gpu.split(','))
 max_iterations = args.max_iterations
-mid_iterations= args.mid_iterations
 base_lr = args.base_lr
 labeled_bs = args.labeled_bs
 
@@ -72,6 +70,7 @@ elif args.dataset=='kits_kidney':
 elif args.dataset=='lits_liver':
     patch_size=(176,176,64)
     train_data_path="../data/LiTS"
+
 
 def get_current_slice_weight(epoch):
     return ramps.cosine_rampdown(epoch, args.consistency_rampup)
@@ -183,7 +182,6 @@ if __name__ == "__main__":
 
     iter_num = 0
     max_epoch = max_iterations // len(trainloader1) + 1
-    mid_epoch = mid_iterations // len(trainloader1) + 1
     lr_ = base_lr
     contrast_model = None
     m_seg1.train()
