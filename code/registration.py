@@ -143,6 +143,6 @@ for item in list:
 toc=time.time()
 print('time:',toc-tic)
 with open(logpath, "a") as f:
-    f.writelines('la_x'+str(args.idx)+str(args.gtnum)+str(args.open1)+str(args.open2)+str(args.close)+str(dice_list)+'\n')
+    f.writelines('la_x'+str(args.idx)+str(args.gtnum)+str(args.open1)+str(args.close)+str(dice_list)+'\n')
 print(dice_list)
 
